@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: demo002.azurecr.io/sqlwebapp
+  repository: demo002.azurecr.io/mongodbwebapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
