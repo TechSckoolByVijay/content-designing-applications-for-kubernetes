@@ -33,31 +33,14 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: MONGODB_HOST
-              valueFrom: 
-                configMapKeyRef
-                  name: myconfigmap
-                  key:  mongodb.host
-            - name: MONGODB_PORT
-              valueFrom: 
-                configMapKeyRef
-                  name: myconfigmap
-                  key:  mongodb.port
-            - name: MONGODB_PORT
-              valueFrom: 
-                secretKeyRef
-                  name: dbsecrete
-                  key:  mongodb.username
-            - name: MONGODB_PORT
-              valueFrom: 
-                secretKeyRef
-                  name: dbsecrete
-                  key:  mongodb.password
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
+          volumeMounts:
+          - name: config-volume
+            mountPath: /app/appsettings.json
+            subPath: appsettings.json
           livenessProbe:
             httpGet:
               path: /
@@ -80,3 +63,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: dotnet-config
