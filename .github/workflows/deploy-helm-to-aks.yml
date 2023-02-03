@@ -102,6 +102,7 @@ jobs:
     - name: Create K8s secret for pulling image from ACR
       uses: Azure/k8s-create-secret@v1.1
       with:
+        namespace: ${{ env.NAMESPACE }}
         container-registry-url: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
         container-registry-username: ${{ steps.get-acr-creds.outputs.username }}
         container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
@@ -157,5 +158,5 @@ jobs:
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
         imagepullsecrets: |
           ${{ env.IMAGE_PULL_SECRET_NAME }}
-        # namespace: ${{ env.NAMESPACE }} 
+          namespace: ${{ env.NAMESPACE }} 
         
