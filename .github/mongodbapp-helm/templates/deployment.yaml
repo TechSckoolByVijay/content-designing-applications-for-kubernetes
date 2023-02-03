@@ -33,27 +33,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: MONGODB_HOST
-              valueFrom: 
-                configMapKeyRef
-                  name: myconfigmap
-                  key:  mongodb.host
-            - name: MONGODB_PORT
-              valueFrom: 
-                configMapKeyRef
-                  name: myconfigmap
-                  key:  mongodb.port
-            - name: MONGODB_PORT
-              valueFrom: 
-                secretKeyRef
-                  name: dbsecrete
-                  key:  mongodb.username
-            - name: MONGODB_PORT
-              valueFrom: 
-                secretKeyRef
-                  name: dbsecrete
-                  key:  mongodb.password
           ports:
             - name: http
               containerPort: 80
@@ -66,6 +45,27 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+          - name: MONGODB_HOST
+            valueFrom: 
+              configMapKeyRef:
+                name: myconfigmap
+                key:  mongodb.host
+          - name: MONGODB_PORT
+            valueFrom: 
+              configMapKeyRef:
+                name: myconfigmap
+                key:  mongodb.port
+          - name: MONGODB_USER
+            valueFrom: 
+              secretKeyRef:
+                name: dbsecrete
+                key:  mongodb.username
+          - name: MONGODB_PASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: dbsecrete
+                key:  mongodb.password
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
