@@ -8,12 +8,12 @@ app.use(express.urlencoded({ extended: true }))
 const MongoClient = require('mongodb').MongoClient
 // MongoDB credentials
 const username = encodeURIComponent(process.env.MONGODB_USER || "uloe_user" );
-const password = encodeURIComponent(process.env.MONGODB_PASSWORD || "ILoethelisg");
+const password = encodeURIComponent(process.env.MONGODB_PASSWORD || "ILoveTheList");
 // MongoDB connection info
 const mongoPort = process.env.MONGODB_PORT || 27017 ;
 const mongoHost = process.env.MONGODB_HOST || 'localhost';
 // MongoDB connection string
-const mongoURI = `mongodb://${username}:${password}@localhost:27017/uloe`;
+const mongoURI = `mongodb://${username}:${password}@${mongoHost}:${mongoPort}/uloe`;
 const mongoURISanitized = `mongodb://${username}:****@${mongoHost}:${mongoPort}/uloe`;
 console.log("MongoDB connection string %s", mongoURISanitized);
 
